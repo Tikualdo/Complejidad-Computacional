@@ -12,9 +12,9 @@
   * Historial de revisiones
   *     // 
 */
-#include <iostream>
 #include "../include/stack.hpp"
 
 int main(int argc, char* argv[]) {
 
+  return 0;
 }
