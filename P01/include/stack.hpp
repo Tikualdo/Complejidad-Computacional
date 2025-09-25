@@ -16,6 +16,7 @@
 #include <iostream>
 #include <list>
 #include <stdexcept>
+#include <ranges>
 
 /**
  * 
@@ -29,6 +30,13 @@ class Stack {
      */
     void Push(const T& element) {
       elements.push_back(element);
+    }
+
+    template <size_t N>
+    void Push(const T (&elements)[N]) {
+      for (const auto& elem : elements | std::views::reverse) {
+        this->Push(elem);
+      }
     }
 
     /**
@@ -45,11 +53,19 @@ class Stack {
     }
 
     /**
+     * @brief Check if the stack is empty.
+     * @return True if the stack is empty, false otherwise.
+     */
+    bool IsEmpty() const {
+      return elements.empty();
+    }
+
+    /**
      * @brief Print all elements in the stack.
      */
     void Print() const {
-      for (const auto& elem : elements) {
-      std::cout << elem << " ";
+      for (const auto& elem : elements | std::views::reverse) {
+        std::cout << elem << " ";
       }
       std::cout << std::endl;
     }
