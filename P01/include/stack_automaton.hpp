@@ -5,21 +5,16 @@
   * Complejidad Computacional
   * 
   * @author Paulo Padilla Domingues 
-  * @date Sep 24 2025 
+  * @date Sep 25 2025 
   * @brief
   * 
   * Archivo 
   * Historial de revisiones
   *     // 
 */
-#include "../include/stack.hpp"
+#include "automaton.hpp"
 
-int main(int argc, char* argv[]) {
-  Stack<char> stack;
-  stack.Push('a');
-  char elements[] = {'b', 'c', 'd'};
-  stack.Push(elements);
-  stack.Pop();
-  stack.Print();
-  return 0;
-}
+class StackAutomaton : public Automaton {
+  public:
+    StackAutomaton(const std::string& input_file);
+};

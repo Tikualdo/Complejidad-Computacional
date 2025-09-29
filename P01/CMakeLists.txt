@@ -20,7 +20,9 @@ include_directories(${PROJECT_SOURCE_DIR}/include)
 # Lista de archivos fuente
 set(SOURCES
     src/main.cpp
-    )
+    src/transition.cpp
+    src/state.cpp
+)
 
 # Crear el ejecutable
 add_executable(OUT ${SOURCES})

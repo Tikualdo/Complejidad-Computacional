@@ -32,6 +32,10 @@ class Stack {
       elements.push_back(element);
     }
 
+    /**
+     * @brief Push an array of elements onto the stack.
+     * @param elements The array of elements to push.
+     */
     template <size_t N>
     void Push(const T (&elements)[N]) {
       for (const auto& elem : elements | std::views::reverse) {

@@ -12,14 +12,13 @@
   * Historial de revisiones
   *     // 
 */
-#include "../include/stack.hpp"
+#include "../include/transition.hpp"
 
-int main(int argc, char* argv[]) {
-  Stack<char> stack;
-  stack.Push('a');
-  char elements[] = {'b', 'c', 'd'};
-  stack.Push(elements);
-  stack.Pop();
-  stack.Print();
-  return 0;
+Transition::Transition(
+  const char& string_symbol,
+  const char& stack_symbol,
+  const std::string& state_symbol,
+  const std::string& stack_writing
+) {
+  transition_ = std::make_tuple(string_symbol, stack_symbol, state_symbol, stack_writing);
 }
