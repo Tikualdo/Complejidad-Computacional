@@ -214,9 +214,15 @@ void FinalAutomaton::Evaluate(const std::string& input_file_name) {
       input_strings.push_back(word);
     } else throw std::runtime_error("Failed to read word from input line");
   }
-  EvaluateString(input_strings);
+  for (const auto& input_string : input_strings) {
+    EvaluateString(input_string, this->initial_state_);
+  }
 }
 
-void FinalAutomaton::EvaluateString(const std::vector<std::string>& input_strings) {
-  
+void FinalAutomaton::EvaluateString(const std::string& input_string, const State& current_state) {
+  if (input_string.empty() || (!input_string.empty() &&
+      current_state.HasTransition(Symbol(input_string[0]), this->stack_.Top()))) {
+    
+    return;
+  }
 }

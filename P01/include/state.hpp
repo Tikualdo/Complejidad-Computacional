@@ -17,6 +17,7 @@
 #include <string>
 #include <set>
 #include "transition.hpp"
+#include "symbol.hpp"
 
 /**
  * @brief Represents a state in the automaton.
@@ -33,6 +34,7 @@ class State {
     );
     std::set<Transition> GetTransitions() const { return transitions; }
     std::string GetID() const { return id_; }
+    bool HasTransition(const Symbol& string_symbol, const Symbol& stack_symbol) const;
     void PrintIterations() const;
     friend bool operator<(const State& state1, const State& state2) {
       return state1.id_ < state2.id_;

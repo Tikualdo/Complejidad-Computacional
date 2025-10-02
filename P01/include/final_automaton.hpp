@@ -22,7 +22,7 @@ class FinalAutomaton : public Automaton {
     State GetFinalState() const { return final_state_; }
     void Print() const;
     void Evaluate(const std::string& input_file);
-    void EvaluateString(const std::vector<std::string>& input_strings);
+    void EvaluateString(const std::string& input_strings, const State& current_state);
   private:
     State final_state_;
   };

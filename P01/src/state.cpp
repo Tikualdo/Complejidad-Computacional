@@ -39,3 +39,16 @@ void State::PrintIterations() const {
     << " " << std::get<3>(transition.GetTransition()) << std::endl;
   }
 }
+
+/**
+ * @brief Check if the state has a specific transition.
+ * @param string_symbol The input symbol.
+ * @param stack_symbol The stack symbol.
+ */
+bool State::HasTransition(const Symbol& string_symbol, const Symbol& stack_symbol) const {
+  for (const auto& transition : transitions) {
+    if (std::get<0>(transition.GetTransition()) == string_symbol.GetValue() &&
+        std::get<1>(transition.GetTransition()) == stack_symbol.GetValue()) return true;
+  }
+  return false;
+}
