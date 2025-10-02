@@ -16,6 +16,10 @@
 #include <fstream>
 #include <sstream>
 
+/**
+ * @brief Constructor for the FinalAutomaton class.
+ * @param input_file Path to the input file.
+ */
 FinalAutomaton::FinalAutomaton(const std::string& input_file) {
   std::ifstream file(input_file);
   if (!file.is_open()) {
@@ -154,7 +158,7 @@ FinalAutomaton::FinalAutomaton(const std::string& input_file) {
                     throw std::runtime_error(error_message);
                   }
                 }
-                new_state.AddTransition(consumed_symbol, consumed_symbol, destine_state, stack_write);
+                new_state.AddTransition(consumed_symbol, consumed_stack_symbol, destine_state, stack_write);
                 this->states_.erase(it);
                 this->states_.insert(new_state);
               } else throw std::runtime_error("Failed to read transition rule stack write");
@@ -166,6 +170,9 @@ FinalAutomaton::FinalAutomaton(const std::string& input_file) {
   }
 }
 
+/**
+ * @brief Print the details of the finite automaton.
+ */
 void FinalAutomaton::Print() const {
   std::cout << "Conjunto de estados: ";
   for (const auto& state : this->states_) {
@@ -173,11 +180,11 @@ void FinalAutomaton::Print() const {
   }
   std::cout << "\nConjunto de símbolos: ";
   for (const auto& symbol : this->alphabet_.GetSymbols()) {
-    std::cout << symbol.GetValue() << " ";
+    if (symbol.GetValue() != '.') std::cout << symbol.GetValue() << " ";
   }
   std::cout << "\nConjunto de símbolos de pila: ";
   for (const auto& symbol : this->stack_alphabet_.GetSymbols()) {
-    std::cout << symbol.GetValue() << " ";
+    if (symbol.GetValue() != '.') std::cout << symbol.GetValue() << " ";
   }
   std::cout << "\nEstado inicial: " << this->initial_state_.GetID();
   std::cout << "\nSímbolo inicial de pila: " << this->stack_.Top();
@@ -186,4 +193,30 @@ void FinalAutomaton::Print() const {
     std::cout << "Estado: " << state.GetID() << std::endl;
     state.PrintIterations();
   }
+}
+
+/**
+ * @brief Evaluate the finite automaton with the given input file.
+ * @param input_file_name The name of the input file to read.
+ */
+void FinalAutomaton::Evaluate(const std::string& input_file_name) {
+  std::ifstream input_file(input_file_name);
+  if (!input_file) {
+    std::cerr << "Error opening input file: " << input_file_name << std::endl;
+    return;
+  }
+  std::string line;
+  std::vector<std::string> input_strings;
+  while (std::getline(input_file, line)) {
+    std::stringstream flujo(line);
+    std::string word;
+    if (flujo >> word) {
+      input_strings.push_back(word);
+    } else throw std::runtime_error("Failed to read word from input line");
+  }
+  EvaluateString(input_strings);
+}
+
+void FinalAutomaton::EvaluateString(const std::vector<std::string>& input_strings) {
+  
 }

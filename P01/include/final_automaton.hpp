@@ -13,6 +13,7 @@
   *     // 
 */
 #pragma once
+#include <vector>
 #include "automaton.hpp"
 
 class FinalAutomaton : public Automaton {
@@ -20,6 +21,8 @@ class FinalAutomaton : public Automaton {
     FinalAutomaton(const std::string& input_file);
     State GetFinalState() const { return final_state_; }
     void Print() const;
+    void Evaluate(const std::string& input_file);
+    void EvaluateString(const std::vector<std::string>& input_strings);
   private:
     State final_state_;
   };
