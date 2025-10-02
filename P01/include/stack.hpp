@@ -24,6 +24,11 @@
 template <typename T>
 class Stack {
   public:
+    T Top() const {
+      if (elements.empty()) throw std::out_of_range("Stack<>::top(): empty stack");
+      return elements.back();
+    }
+
     /**
      * @brief Push an element onto the stack.
      * @param element The element to push.

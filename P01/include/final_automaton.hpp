@@ -12,11 +12,14 @@
   * Historial de revisiones
   *     // 
 */
+#pragma once
 #include "automaton.hpp"
 
 class FinalAutomaton : public Automaton {
   public:
     FinalAutomaton(const std::string& input_file);
+    State GetFinalState() const { return final_state_; }
+    void Print() const;
   private:
     State final_state_;
   };

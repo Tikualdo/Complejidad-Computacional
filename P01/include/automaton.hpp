@@ -24,6 +24,6 @@ class Automaton {
     Alphabet alphabet_;
     Alphabet stack_alphabet_;
     Stack<char> stack_;
-    State current_state_;
+    State initial_state_;
     std::set<State> states_;
 };

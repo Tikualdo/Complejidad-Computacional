@@ -22,6 +22,8 @@ set(SOURCES
     src/main.cpp
     src/transition.cpp
     src/state.cpp
+    src/automaton.cpp
+    src/final_automaton.cpp
 )
 
 # Crear el ejecutable

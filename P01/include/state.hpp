@@ -24,6 +24,7 @@
 class State {
   public:
     State(const std::string& id) : id_(id) {}
+    State () { id_ = "<>";}
     void AddTransition(
       const char& string_symbol,
       const char& stack_symbol,
@@ -31,7 +32,8 @@ class State {
       const std::string& stack_writing
     );
     std::set<Transition> GetTransitions() const { return transitions; }
-    void Print() const;
+    std::string GetID() const { return id_; }
+    void PrintIterations() const;
     friend bool operator<(const State& state1, const State& state2) {
       return state1.id_ < state2.id_;
     }

@@ -31,13 +31,11 @@ void State::AddTransition(
 /**
  * @brief Print the state and its transitions.
  */
-void State::Print() const {
-  std::cout << "State ID: " << id_ << std::endl;
-  std::cout << "Transitions:" << std::endl;
+void State::PrintIterations() const {
   for (const auto& transition : transitions) {
     std::cout << "\t" << std::get<0>(transition.GetTransition()) 
-    << " --" << std::get<1>(transition.GetTransition())
-    << "--> " << std::get<2>(transition.GetTransition())
-    << " [label=\"" << std::get<3>(transition.GetTransition()) << "\"]" << std::endl;
+    << " " << std::get<1>(transition.GetTransition())
+    << " " << std::get<2>(transition.GetTransition())
+    << " " << std::get<3>(transition.GetTransition()) << std::endl;
   }
 }

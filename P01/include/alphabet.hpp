@@ -22,9 +22,9 @@
 class Alphabet {
   public:
     Alphabet() { symbols_.emplace('.'); }
-    void AddSymbol(char symbol) { symbols_.emplace(symbol); }
+    void AddSymbol(const Symbol& symbol) { symbols_.emplace(symbol); }
     const std::set<Symbol>& GetSymbols() const { return symbols_; }
-    bool IsSymbolPresent(char symbol) const { return symbols_.find(symbol) != symbols_.end(); }
+    bool IsSymbolPresent(const Symbol& symbol) const { return symbols_.find(symbol) != symbols_.end(); }
   private:
     std::set<Symbol> symbols_;
 };

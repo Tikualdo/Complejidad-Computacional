@@ -5,19 +5,16 @@
   * Complejidad Computacional
   * 
   * @author Paulo Padilla Domingues 
-  * @date Sep 24 2025 
+  * @date Sep 25 2025 
   * @brief
   * 
   * Archivo 
   * Historial de revisiones
   *     // 
 */
-#include "../include/stack.hpp"
-#include "../include/final_automaton.hpp"
+#include "../include/automaton.hpp"
 
-int main(int argc, char* argv[]) {
-  std::string input_file = argv[1];
-  FinalAutomaton* automaton = new FinalAutomaton(input_file);
-  automaton->Print();
-  return 0;
-}
+/**
+ * @brief Destructor for the Automaton class.
+ */
+Automaton::~Automaton() {}
