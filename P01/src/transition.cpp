@@ -22,3 +22,7 @@ Transition::Transition(
 ) {
   transition_ = std::make_tuple(string_symbol, stack_symbol, state_symbol, stack_writing);
 }
+
+bool Transition::EvaluateTransition(const char& input_symbol, const char& stack_symbol) const {
+  return std::get<0>(transition_) == input_symbol && std::get<1>(transition_) == stack_symbol;
+}
