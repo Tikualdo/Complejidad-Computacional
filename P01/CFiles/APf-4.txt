@@ -1,3 +1,6 @@
+# Automata de Pila con estados finales para reconocer el lenguaje
+# Reconoce el lenguaje L={w∈{0,1}∗∣w=wR y ∣w∣ es par} que son las cadenas palíndromas pares
+# epsilon esta representado por un .
 q0 q1 q2
 0 1
 0 1 S
