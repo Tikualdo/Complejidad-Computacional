@@ -5,7 +5,7 @@
 - **Nombre:** Paulo Padilla Domingues
 - **Correo:** alu0101571836@ull.edu.es
 - **Grupo:** PE101
-- **Fecha de entrega:** - de octubre de 2025  
+- **Fecha de entrega:** 09 de octubre de 2025  
 
 ## 📜 Descripción General
 
@@ -70,7 +70,7 @@ Para compilar el proyecto, se debe utilizar el sistema de construcción `CMake`.
    ```
 
 4. Ejecutar el simulador con un fichero de entrada correspondiente a cada autómata por su número:
-   ```bash
+   ```txt
    ./STACK_AUTOMATON_SIMULATOR ../CFiles/APf-X.txt ../InputFiles/input-X.txt [--debug | -d]
    ```
 
