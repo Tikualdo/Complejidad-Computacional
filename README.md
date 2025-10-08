@@ -24,7 +24,7 @@ Se ha implementado un **Autómata con Pila (AP)** con aceptación por **estado f
 
 El fichero de configuración del autómata debe cumplir el siguiente formato:
 
-```txt
+```bash
 # Comentarios (opcional)
 
 q1 q2 q3      # Estados del autómata (Q)
@@ -42,7 +42,7 @@ q1 a S q1 AS  # Transiciones
 El proyecto se ha desarrollado siguiendo un diseño **orientado a objetos**, dividiendo la funcionalidad principal en varias clases y ficheros para mejorar la organización y la claridad del código.
 
 Estructura general del proyecto:
-```python
+```bash
 .
 ├── CFiles # Ficheros de configuración de los automatas (APf, APv, etc.).
 ├── InputFiles # Ficheros con las cadenas de entrada.
