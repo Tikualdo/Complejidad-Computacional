@@ -14,6 +14,9 @@
 */
 #pragma once
 
+/**
+ * @brief Class representing a symbol in the automaton.
+ */
 class Symbol {
   public:
     Symbol(char value) : value_(value) {}

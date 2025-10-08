@@ -16,6 +16,9 @@
 #include <tuple>
 #include <string>
 
+/**
+ * @brief Class representing a transition in the automaton.
+ */
 class Transition {
   public:
     Transition(const char&, const char&, const std::string&, const std::string&);

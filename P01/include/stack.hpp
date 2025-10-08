@@ -19,11 +19,15 @@
 #include <ranges>
 
 /**
- * 
+ * @brief Class representing a stack data structure.
  */
 template <typename T>
 class Stack {
   public:
+    /**
+     * @brief Get the top element of the stack.
+     * @return The top element.
+     */
     T Top() const {
       if (elements.empty()) throw std::out_of_range("Stack<>::top(): empty stack");
       return elements.back();
@@ -67,6 +71,13 @@ class Stack {
      */
     bool IsEmpty() const {
       return elements.empty();
+    }
+
+    /**
+     * @brief Clear all elements from the stack.
+     */
+    void Clear() {
+      elements.clear();
     }
 
     /**

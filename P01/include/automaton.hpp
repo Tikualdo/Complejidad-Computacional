@@ -17,6 +17,9 @@
 #include "stack.hpp"
 #include "state.hpp"
 
+/**
+ * @brief Abstract base class for finite automata.
+ */
 class Automaton {
   public:
     virtual ~Automaton() = 0;
@@ -24,6 +27,7 @@ class Automaton {
     Alphabet alphabet_;
     Alphabet stack_alphabet_;
     Stack<char> stack_;
+    char initial_stack_symbol_;
     State initial_state_;
     std::set<State> states_;
 };

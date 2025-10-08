@@ -52,9 +52,3 @@ bool State::HasTransition(const Symbol& string_symbol, const Symbol& stack_symbo
   }
   return false;
 }
-
-// Transition State::GetTransition(const Symbol& string_symbol, const Symbol& stack_symbol) const {
-//   for (const auto& transition : transitions) {
-    
-//   }
-// }
