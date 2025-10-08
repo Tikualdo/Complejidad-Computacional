@@ -27,4 +27,4 @@ set(SOURCES
 )
 
 # Crear el ejecutable
-add_executable(OUT ${SOURCES})
+add_executable(STACK_AUTOMATON_SIMULATOR ${SOURCES})
