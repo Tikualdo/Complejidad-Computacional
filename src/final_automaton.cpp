@@ -36,7 +36,7 @@ static std::string SerializeStackCopy(Stack<char> stackCopy) {
 FinalAutomaton::FinalAutomaton(const std::string& input_file) {
   std::ifstream file(input_file);
   if (!file.is_open()) {
-    throw std::runtime_error("Failed to open input file");
+    throw std::runtime_error("\033[1;31mFailed to open input file\033[0m");
   }
   std::string line;
   int counter = 0;
@@ -61,7 +61,7 @@ FinalAutomaton::FinalAutomaton(const std::string& input_file) {
       std::string symbol;
       while (flujo >> symbol) {
         if (symbol.size() > 1) {
-          throw std::runtime_error("Symbol too long");
+          throw std::runtime_error("\033[1;31mSymbol too long\033[0m");
         } 
         Symbol new_symbol(symbol[0]);
         this->alphabet_.AddSymbol(new_symbol);
@@ -75,7 +75,7 @@ FinalAutomaton::FinalAutomaton(const std::string& input_file) {
       std::string stack_symbol;
       while (flujo >> stack_symbol) {
         if (stack_symbol.size() > 1) {
-          throw std::runtime_error("Stack symbol too long");
+          throw std::runtime_error("\033[1;31mStack symbol too long\033[0m");
         }
         Symbol new_stack_symbol(stack_symbol[0]);
         this->stack_alphabet_.AddSymbol(new_stack_symbol);
@@ -89,10 +89,10 @@ FinalAutomaton::FinalAutomaton(const std::string& input_file) {
       std::string initial_state;
       if (flujo >> initial_state) {
         if (this->states_.find(initial_state) == this->states_.end()) {
-          throw std::runtime_error("Initial state not in state set");
+          throw std::runtime_error("\033[1;31mInitial state not in state set\033[0m");
         }
         this->initial_state_ = State(initial_state);
-      } else throw std::runtime_error("Failed to read initial state");
+      } else throw std::runtime_error("\033[1;31mFailed to read initial state\033[0m");
       counter++;
       continue;
     }
@@ -101,13 +101,13 @@ FinalAutomaton::FinalAutomaton(const std::string& input_file) {
     if (counter == 4) {
       std::string initial_symbol_stack;
       if (flujo >> initial_symbol_stack) {
-        if (initial_symbol_stack.size() > 1) throw std::runtime_error("Initial symbol stack too long");
+        if (initial_symbol_stack.size() > 1) throw std::runtime_error("\033[1;31mInitial symbol stack too long\033[0m");
         Symbol new_initial_symbol_stack(initial_symbol_stack[0]);
         if (this->stack_alphabet_.IsSymbolPresent(new_initial_symbol_stack)) {
           this->stack_.Push(initial_symbol_stack[0]);
           this->initial_stack_symbol_ = initial_symbol_stack[0];
-        } else throw std::runtime_error("Initial symbol stack not in stack alphabet");
-      } else throw std::runtime_error("Failed to read initial symbol stack");
+        } else throw std::runtime_error("\033[1;31mInitial symbol stack not in stack alphabet\033[0m");
+      } else throw std::runtime_error("\033[1;31mFailed to read initial symbol stack\033[0m");
       counter++;
       continue;
     }
@@ -117,10 +117,10 @@ FinalAutomaton::FinalAutomaton(const std::string& input_file) {
       std::string final_state;
       if (flujo >> final_state) {
         if (this->states_.find(final_state) == this->states_.end()) {
-          throw std::runtime_error("Final state not in state set");
+          throw std::runtime_error("\033[1;31mFinal state not in state set\033[0m");
         }
         this->final_state_ = State(final_state);
-      } else throw std::runtime_error("Failed to read final state");
+      } else throw std::runtime_error("\033[1;31mFailed to read final state\033[0m");
       counter++;
       continue;
     }
@@ -132,7 +132,7 @@ FinalAutomaton::FinalAutomaton(const std::string& input_file) {
       if (flujo >> word) {
         auto it = this->states_.find(State(word));
         if (it == this->states_.end()) {
-          std::string error_message = "State " + word + " of transition rule not in state set";
+          std::string error_message = "\033[1;31mState " + word + " of transition rule not in state set\033[0m";
           throw std::runtime_error(error_message);
         }
         State new_state = *it;
@@ -142,7 +142,7 @@ FinalAutomaton::FinalAutomaton(const std::string& input_file) {
           char consumed_symbol = word[0];
           auto it_consumed = this->alphabet_.IsSymbolPresent(Symbol(consumed_symbol));
           if (!it_consumed) {
-            std::string error_message = "Consumed symbol " + std::string(1, consumed_symbol) + " not in alphabet";
+            std::string error_message = "\033[1;31mConsumed symbol " + std::string(1, consumed_symbol) + " not in alphabet\033[0m";
             throw std::runtime_error(error_message);
           }
           
@@ -152,14 +152,14 @@ FinalAutomaton::FinalAutomaton(const std::string& input_file) {
             // std::cout << "Consumed stack symbol: " << consumed_stack_symbol << std::endl;
             auto it_consumed_stack = this->stack_alphabet_.IsSymbolPresent(Symbol(consumed_stack_symbol));
             if (!it_consumed_stack) {
-              std::string error_message = "Consumed stack symbol " + std::string(1, consumed_stack_symbol) + " not in stack alphabet";
+              std::string error_message = "\033[1;31mConsumed stack symbol " + std::string(1, consumed_stack_symbol) + " not in stack alphabet\033[0m";
               throw std::runtime_error(error_message);
             }
             // Read destination state
             if (flujo >> word) {
               std::string destine_state = word;
               if (this->states_.find(State(destine_state)) == this->states_.end()) {
-                std::string error_message = "Destination state " + destine_state + " not in state set";
+                std::string error_message = "\033[1;31mDestination state " + destine_state + " not in state set\033[0m";
                 throw std::runtime_error(error_message);
               }
               
@@ -168,18 +168,18 @@ FinalAutomaton::FinalAutomaton(const std::string& input_file) {
                 std::string stack_write = word;
                 for (char c : stack_write) {
                   if (!this->stack_alphabet_.IsSymbolPresent(Symbol(c))) {
-                    std::string error_message = "Stack symbol " + std::string(1, c) + " not in stack alphabet";
+                    std::string error_message = "\033[1;31mStack symbol " + std::string(1, c) + " not in stack alphabet\033[0m";
                     throw std::runtime_error(error_message);
                   }
                 }
                 new_state.AddTransition(consumed_symbol, consumed_stack_symbol, destine_state, stack_write);
                 this->states_.erase(it);
                 this->states_.insert(new_state);
-              } else throw std::runtime_error("Failed to read transition rule stack write");
-            } else throw std::runtime_error("Failed to read transition rule destination state");
-          } else throw std::runtime_error("Failed to read transition rule consumed stack symbol");
-        } else throw std::runtime_error("Failed to read transition rule consumed symbol");
-      } else throw std::runtime_error("Failed to read transition rule initial state");
+              } else throw std::runtime_error("\033[1;31mFailed to read transition rule stack write\033[0m");
+            } else throw std::runtime_error("\033[1;31mFailed to read transition rule destination state\033[0m");
+          } else throw std::runtime_error("\033[1;31mFailed to read transition rule consumed stack symbol\033[0m");
+        } else throw std::runtime_error("\033[1;31mFailed to read transition rule consumed symbol\033[0m");
+      } else throw std::runtime_error("\033[1;31mFailed to read transition rule initial state\033[0m");
     }
   }
 }
