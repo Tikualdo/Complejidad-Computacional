@@ -1,5 +1,5 @@
 # Automata por estado final
-Reconoce el lenguaje L={a^nb^n∣n≥0} que son las cadenas que empiezan por un número de aes seguido del mismo númeor de bes
+# Reconoce el lenguaje L={a^nb^n∣n≥0} que son las cadenas que empiezan por un número de aes seguido del mismo númeor de bes
 # epsilon esta representado por un .
 q0 s r
 a b

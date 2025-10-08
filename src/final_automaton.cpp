@@ -30,18 +30,6 @@ static std::string SerializeStackCopy(Stack<char> stackCopy) {
 }
 
 /**
- * @brief Get a state by its ID.
- * @param id The ID of the state.
- * @return The state with the given ID.
- */
-State FinalAutomaton::GetStateByID(const std::string& id) const {
-  State key(id);
-  auto it = states_.find(key);
-  if (it == states_.end()) throw std::out_of_range("State not found: " + id);
-  return *it;
-}
-
-/**
  * @brief Constructor for the FinalAutomaton class.
  * @param input_file Path to the input file.
  */
@@ -197,6 +185,192 @@ FinalAutomaton::FinalAutomaton(const std::string& input_file) {
 }
 
 /**
+ * @brief Get a state by its ID.
+ * @param id The ID of the state.
+ * @return The state with the given ID.
+ */
+State FinalAutomaton::GetStateByID(const std::string& id) const {
+  State key(id);
+  auto it = states_.find(key);
+  if (it == states_.end()) throw std::out_of_range("State not found: " + id);
+  return *it;
+}
+
+/**
+ * @brief Evaluate the finite automaton with the given input file.
+ * @param input_file_name The name of the input file to read.
+ * @param debug_mode Whether to enable debug mode.
+ */
+void FinalAutomaton::Evaluate(const std::string& input_string, const bool& debug_mode) {
+  TriedMap tried_map;
+  State initial_state;
+  for (const auto& state : this->states_) {
+    if (state.GetID() == this->initial_state_.GetID()) {
+      initial_state = state;
+    }
+  }
+  if (EvaluateString(input_string, initial_state, 0u, tried_map, 1, debug_mode)) {
+    if (!debug_mode) std::cout << std::left << std::setw(15) << input_string << " → ✅  ACEPTADA\n";
+  } else if (!debug_mode) std::cout << std::left << std::setw(15) << input_string << " → ❌  RECHAZADA\n";
+}
+
+/**
+ * @brief Evaluate the input string using the current state.
+ * @param input_string The input string to evaluate.
+ * @param current_state The current state of the automaton.
+ * @param pos The current position in the input string.
+ * @return True if the input string is accepted, false otherwise.
+ */
+bool FinalAutomaton::EvaluateString(
+    const std::string& input_string,
+    const State& current_state,
+    std::size_t pos,
+    TriedMap& tried,
+    const int& depth,
+    const bool& debug_mode
+) {
+  const std::size_t position = input_string.size();
+
+  // Make initial config
+  std::string remaining_string = input_string.substr(pos);
+  std::string serialized_stack = SerializeStackCopy(stack_);
+  std::string indent(depth * 2, ' ');
+
+  // DEBUG: Show current state
+  if (debug_mode) {
+    std::cout << indent << "\033[1;35m[DEBUG]\033[0m " "\033[36mEstado\033[0m = " << current_state.GetID()
+              << " | \033[36mCadena\033[0m = " << (remaining_string.empty() ? "ε" : "\"" + remaining_string + "\"")
+              << " | \033[36mPila\033[0m = " << (serialized_stack.empty() ? "ε" : serialized_stack);
+  }
+
+  // [DEBUG]: Show possible transitions
+  if (debug_mode) {
+    const auto& transitions = current_state.GetTransitions();
+    std::vector<std::string> posibles;
+
+    for (const Transition& transition : transitions) {
+      char input_symbol = transition.GetSymbol();
+      char stack_symbol = transition.GetStackSymbol();
+
+      bool inputOk = (input_symbol == '.') || (pos < position && input_symbol == input_string[pos]);
+      bool stackOk = (stack_symbol == '.') || (!stack_.IsEmpty() && stack_.Top() == stack_symbol);
+
+      if (inputOk && stackOk) {
+        std::string trans_str = "(" +
+          (input_symbol == '.' ? "ε" : std::string(1, input_symbol)) + ", " +
+          (stack_symbol == '.' ? "ε" : std::string(1, stack_symbol)) + " → " +
+          transition.GetNextState() + ", " +
+          (transition.GetStackWrite().empty() || transition.GetStackWrite() == "." ? "ε" : transition.GetStackWrite()) + ")";
+        posibles.push_back(trans_str);
+      }
+    }
+
+    if (!posibles.empty()) {
+      std::cout << " | \033[36mTransiciones posibles\033[0m: ";
+      for (size_t i = 0; i < posibles.size(); ++i) {
+        std::cout << "\033[35m" << posibles[i] << "\033[0m";
+        if (i + 1 < posibles.size()) std::cout << ", \033[33m";
+      }
+    } else {
+      std::cout << " | \033[31;4mSin transiciones válidas\033[0m";
+    }
+    std::cout << std::endl;
+  }
+
+  // 1) Accepted condition
+  if ((pos == position || input_string == ".") && current_state.GetID() == final_state_.GetID()) {
+
+    // [DEBUG]: Show acceptance
+    if (debug_mode) {
+      std::cout << indent << "✅ ACEPTADA: cadena vacía y estado final alcanzado ("
+                << current_state.GetID() << ")\n";
+    }
+    return true;
+  }
+
+  // Serializing the current configuration
+  ConfigKey cfg = std::make_tuple(current_state.GetID(), pos, serialized_stack);
+
+  // 2) Iterate over outgoing transitions
+  const auto& transitions = current_state.GetTransitions();
+  for (const Transition& trans : transitions) {
+    TransitionKey tkey = trans.GetTransition();
+
+    // Check if this transition has already been tried from the current configuration
+    auto itCfg = tried.find(cfg);
+    if (itCfg != tried.end() && itCfg->second.find(tkey) != itCfg->second.end()) {
+      continue;
+    }
+
+    // Match with the input
+    char input_symbol = trans.GetSymbol();
+    bool input_matches = (input_symbol == '.') || (pos < position && input_symbol == input_string[pos]);
+    if (!input_matches) continue;
+
+    // --- Match with the stack ---
+    char stack_symbol = trans.GetStackSymbol();
+    bool stack_matches = (stack_symbol == '.') || (!stack_.IsEmpty() && stack_.Top() == stack_symbol);
+    if (!stack_matches) continue;
+
+    // --- Apply transition (previous backup) ---
+    Stack<char> stack_backup = stack_;
+    bool consumes_input = (input_symbol != '.');
+
+    // Pop if needed
+    if (stack_symbol != '.') {
+      if (stack_.IsEmpty()) { stack_ = stack_backup; continue; }
+      stack_.Pop();
+    }
+
+    // Writing to stack
+    std::string write = trans.GetStackWrite();
+    if (!(write.empty() || write == ".")) {
+      for (auto it = write.rbegin(); it != write.rend(); ++it) {
+        stack_.Push(*it);
+      }
+    }
+
+    // Mark transition as tried
+    tried[cfg].insert(tkey);
+
+    // DEBUG: Show transition used
+    if (debug_mode) {
+      std::cout << indent << " ├── \033[34mUsa transición\033[0m: \033[35m("
+                << current_state.GetID() << ", "
+                << (input_symbol == '.' ? "ε" : std::string(1, input_symbol)) << ", "
+                << (stack_symbol == '.' ? "ε" : std::string(1, stack_symbol))
+                << ") → (" << trans.GetNextState() << ", "
+                << (write.empty() || write == "." ? "ε" : write)
+                << ")\033[0m" << std::endl;
+    }
+
+    // Next state and position
+    State nextState = GetStateByID(trans.GetNextState());
+    std::size_t nextPos = pos + (consumes_input ? 1u : 0u);
+
+    // Recursive call
+    if (EvaluateString(input_string, nextState, nextPos, tried, depth + 1, debug_mode)) {
+      return true;
+    }
+
+    // BACKTRACKING
+    stack_ = stack_backup;
+    if (debug_mode)
+      std::cout << indent << " 🔙 Backtracking desde estado "
+                << nextState.GetID() << " a " << current_state.GetID() << std::endl;
+  }
+
+  // If no transition led to acceptance
+  if (debug_mode) {
+    std::cout << indent << "❌ Dead end en estado " << current_state.GetID()
+              << " con cadena=\"" << (remaining_string.empty() ? "." : remaining_string)
+              << "\" y pila=" << (serialized_stack.empty() ? "." : serialized_stack)
+              << std::endl;
+  }
+  return false;
+}
+
+/**
  * @brief Print the details of the finite automaton.
  */
 void FinalAutomaton::Print() const {
@@ -220,169 +394,3 @@ void FinalAutomaton::Print() const {
     state.PrintIterations();
   }
 }
-
-/**
- * @brief Evaluate the finite automaton with the given input file.
- * @param input_file_name The name of the input file to read.
- */
-void FinalAutomaton::Evaluate(const std::string& input_string, const bool& debug_mode) {
-  TriedMap tried_map;
-  State initial_state;
-  for (const auto& state : this->states_) {
-    if (state.GetID() == this->initial_state_.GetID()) {
-      initial_state = state;
-    }
-  }
-  if (EvaluateString(input_string, initial_state, 0u, tried_map, 1, debug_mode)) {
-    if (!debug_mode) std::cout << std::left << std::setw(15) << input_string << " → ✅  ACEPTADA\n";
-  } else if (!debug_mode) std::cout << std::left << std::setw(15) << input_string << " → ❌  RECHAZADA\n";
-}
-
-bool FinalAutomaton::EvaluateString(
-    const std::string& input_string,
-    const State& current_state,
-    std::size_t pos,
-    TriedMap& tried,
-    const int& depth,
-    const bool& debug_mode
-) {
-  const std::size_t n = input_string.size();
-
-  // Construimos configuración actual
-  std::string cadena_restante = input_string.substr(pos);
-  std::string pila_serializada = SerializeStackCopy(stack_);
-  std::string indent(depth * 2, ' ');
-
-  // DEBUG: Estado actual
-  if (debug_mode) {
-    std::cout << indent << "\033[1;35m[DEBUG]\033[0m " "\033[36mEstado\033[0m = " << current_state.GetID()
-              << " | \033[36mCadena\033[0m = " << (cadena_restante.empty() ? "ε" : "\"" + cadena_restante + "\"")
-              << " | \033[36mPila\033[0m = " << (pila_serializada.empty() ? "ε" : pila_serializada);
-  }
-
-  // --- Mostrar transiciones posibles ---
-  if (debug_mode) {
-    const auto& transitions = current_state.GetTransitions();
-    std::vector<std::string> posibles;
-
-    for (const Transition& t : transitions) {
-      char t_input = t.GetSymbol();
-      char t_stack = t.GetStackSymbol();
-
-      bool inputOk = (t_input == '.') || (pos < n && t_input == input_string[pos]);
-      bool stackOk = (t_stack == '.') || (!stack_.IsEmpty() && stack_.Top() == t_stack);
-
-      if (inputOk && stackOk) {
-        std::string trans_str = "(" +
-          (t_input == '.' ? "ε" : std::string(1, t_input)) + ", " +
-          (t_stack == '.' ? "ε" : std::string(1, t_stack)) + " → " +
-          t.GetNextState() + ", " +
-          (t.GetStackWrite().empty() || t.GetStackWrite() == "." ? "ε" : t.GetStackWrite()) + ")";
-        posibles.push_back(trans_str);
-      }
-    }
-
-    if (!posibles.empty()) {
-      std::cout << " | \033[36mTransiciones posibles\033[0m: ";
-      for (size_t i = 0; i < posibles.size(); ++i) {
-        std::cout << "\033[35m" << posibles[i] << "\033[0m";
-        if (i + 1 < posibles.size()) std::cout << ", \033[33m";
-      }
-    } else {
-      std::cout << " | \033[31;4mSin transiciones válidas\033[0m";
-    }
-    std::cout << std::endl;
-  }
-
-  // 1) Condición de aceptación
-  if (pos == n && current_state.GetID() == final_state_.GetID()) {
-    if (debug_mode) {
-      std::cout << indent << "✅ ACEPTADA: cadena vacía y estado final alcanzado ("
-                << current_state.GetID() << ")\n";
-    }
-    return true;
-  }
-
-  // Serializamos la configuración actual
-  ConfigKey cfg = std::make_tuple(current_state.GetID(), pos, pila_serializada);
-
-  // 2) Recorremos transiciones salientes
-  const auto& transitions = current_state.GetTransitions();
-  for (const Transition& trans : transitions) {
-    TransitionKey tkey = trans.GetTransition();
-
-    // Evitar repetir la misma transición desde esta configuración
-    auto itCfg = tried.find(cfg);
-    if (itCfg != tried.end() && itCfg->second.find(tkey) != itCfg->second.end()) {
-      continue;
-    }
-
-    // --- Coincidencia con la entrada ---
-    char t_input = trans.GetSymbol();
-    bool inputMatches = (t_input == '.') || (pos < n && t_input == input_string[pos]);
-    if (!inputMatches) continue;
-
-    // --- Coincidencia con la pila ---
-    char t_stack = trans.GetStackSymbol();
-    bool stackMatches = (t_stack == '.') || (!stack_.IsEmpty() && stack_.Top() == t_stack);
-    if (!stackMatches) continue;
-
-    // --- Aplicar transición (backup previo) ---
-    Stack<char> stack_backup = stack_;
-    bool consumesInput = (t_input != '.');
-
-    // Pop si corresponde
-    if (t_stack != '.') {
-      if (stack_.IsEmpty()) { stack_ = stack_backup; continue; }
-      stack_.Pop();
-    }
-
-    // Escritura en pila ('.' = no escribir nada)
-    std::string write = trans.GetStackWrite();
-    if (!(write.empty() || write == ".")) {
-      for (auto it = write.rbegin(); it != write.rend(); ++it) {
-        stack_.Push(*it);
-      }
-    }
-
-    // Marcar transición como probada
-    tried[cfg].insert(tkey);
-
-    // DEBUG: Transición usada
-    if (debug_mode) {
-      std::cout << indent << " ├── \033[34mUsa transición\033[0m: \033[35m("
-                << current_state.GetID() << ", "
-                << (t_input == '.' ? "ε" : std::string(1, t_input)) << ", "
-                << (t_stack == '.' ? "ε" : std::string(1, t_stack))
-                << ") → (" << trans.GetNextState() << ", "
-                << (write.empty() || write == "." ? "ε" : write)
-                << ")\033[0m" << std::endl;
-    }
-
-    // Estado y posición siguientes
-    State nextState = GetStateByID(trans.GetNextState());
-    std::size_t nextPos = pos + (consumesInput ? 1u : 0u);
-
-    // Recursión
-    if (EvaluateString(input_string, nextState, nextPos, tried, depth + 1, debug_mode)) {
-      return true;
-    }
-
-    // --- BACKTRACKING ---
-    stack_ = stack_backup;
-    if (debug_mode)
-      std::cout << indent << " 🔙 Backtracking desde estado "
-                << nextState.GetID() << " a " << current_state.GetID() << std::endl;
-  }
-
-  // Si ninguna transición llevó a aceptación
-  if (debug_mode) {
-    std::cout << indent << "❌ Dead end en estado " << current_state.GetID()
-              << " con cadena=\"" << (cadena_restante.empty() ? "." : cadena_restante)
-              << "\" y pila=" << (pila_serializada.empty() ? "." : pila_serializada)
-              << std::endl;
-  }
-
-  return false;
-}
-
