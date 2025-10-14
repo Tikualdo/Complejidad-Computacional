@@ -1,16 +1,19 @@
-# ⏳ Complejidad Computacional
+# 🧠 Complejidad Computacional  
+## Práctica 2 --- Simulador de Máquina de Turing Determinista  
 
-Repositorio de la asignatura **Complejidad Computacional**.  
-Contiene diferentes prácticas organizadas en ramas.
+### Datos personales  
+- **Nombre:** Paulo Padilla Domingues
+- **Correo:** alu0101571836@ull.edu.es
+- **Grupo:** PE101
+- **Fecha de entrega:** - de octubre de 2025  
 
----
+## 📜 Descripción General
 
-## 📁 Estructura del repositorio
+La práctica consiste en implementar un simulador de una máquina de Turing determinista. Se ha desarrollado una clase `TuringMachine` que permite cargar la configuración de la máquina desde un archivo y simular su comportamiento con una entrada dada.
 
-- 🕸️ **[P01](https://github.com/Tikualdo/Complejidad-Computacional/tree/P01)**  
-  Primera práctica: Simulador de un autómata de pila.
+## ⚙️ Tipo de Máquina de Turing implementada
 
-- 💾 **[P02](https://github.com/Tikualdo/Complejidad-Computacional/tree/P02)**  
-  Segunda práctica: Simulador de una máquina de Turing Determinista.
-
----
+Se ha implementado una MT con las siguientes características:
+- Escritura y movimientos simultáneos.
+- Movimientos permitidos: L, R, S (sin movimiento).
+- Cinta infinita en ambas direcciones.

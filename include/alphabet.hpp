@@ -21,7 +21,7 @@
  */
 class Alphabet {
   public:
-    Alphabet() { symbols_.emplace('.'); }
+    Alphabet(bool epsilon = true) { if (epsilon) symbols_.emplace('.'); }
     void AddSymbol(const Symbol& symbol) { symbols_.emplace(symbol); }
     const std::set<Symbol>& GetSymbols() const { return symbols_; }
     bool IsSymbolPresent(const Symbol& symbol) const { return symbols_.find(symbol) != symbols_.end(); }
