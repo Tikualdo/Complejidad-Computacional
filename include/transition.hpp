@@ -21,7 +21,7 @@
  */
 class Transition {
   public:
-    Transition(const TransitionParams& params);
+    Transition(const TransitionParams& params) : params_(params) {}
     const TransitionParams& GetTransition() const { return params_; }
     const Symbol GetSymbol() const { return params_.read_symbol; }
     const std::string GetNextState() const { return params_.next_state; }
