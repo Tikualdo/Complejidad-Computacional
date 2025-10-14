@@ -25,6 +25,15 @@ enum class Movement {
   STAY
 };
 
+inline std::string ToString(Movement movement) {
+  switch (movement) {
+    case Movement::LEFT:  return "LEFT";
+    case Movement::RIGHT: return "RIGHT";
+    case Movement::STAY:  return "STAY";
+    default:              return "UNKNOWN";
+  }
+}
+
 /**
  * @brief Struct that holds the parameters for a transition in a Turing machine.
  * @param read_symbol The symbol to read from the tape.
