@@ -14,16 +14,10 @@
 */
 #pragma once
 
-/**
- * @brief Class representing a symbol in the automaton.
- */
-class Symbol {
+class State {
   public:
-    Symbol(char value) : value_(value) {}
-    char GetValue() const { return value_; }
-    friend bool operator<(const Symbol& symbol1, const Symbol& symbol2) {
-      return symbol1.GetValue() < symbol2.GetValue();
-    }
+    State(const std::string& id) : id_(id) {}
+    State () { id_ = "<>";}
   private:
-    char value_;
-};
+    std::string id_;
+}
