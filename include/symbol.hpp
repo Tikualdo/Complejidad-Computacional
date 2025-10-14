@@ -24,6 +24,9 @@ class Symbol {
     friend bool operator<(const Symbol& symbol1, const Symbol& symbol2) {
       return symbol1.GetValue() < symbol2.GetValue();
     }
+    friend bool operator==(const Symbol& symbol1, const Symbol& symbol2) {
+      return symbol1.GetValue() == symbol2.GetValue();
+    }
   private:
     char value_;
 };
