@@ -20,6 +20,7 @@
 class Symbol {
   public:
     Symbol(char value) : value_(value) {}
+    Symbol() : value_('*') {}
     char GetValue() const { return value_; }
     friend bool operator<(const Symbol& symbol1, const Symbol& symbol2) {
       return symbol1.GetValue() < symbol2.GetValue();
