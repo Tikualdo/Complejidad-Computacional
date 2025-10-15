@@ -16,16 +16,14 @@
 #include <set>
 #include "types.hpp"
 #include "transition.hpp"
+#include "state.hpp"
 
-class State {
+class MultiTapeState : public State {
   public:
-    State(const std::string& id) : id_(id) {}
-    State () { id_ = "<>";}
-    const std::string& GetID() const { return id_; }
-    virtual void PrintTransitions() const = 0;
-    friend bool operator<(const State& state1, const State& state2) {
-      return state1.GetID() < state2.GetID();
-    }
-  protected:
-    std::string id_;
+    MultiTapeState(const std::string& id) : State(id) {}
+    MultiTapeState () : State("<>") {}
+    const std::string& GetID() const { return State::GetID(); }
+    virtual void PrintTransitions() const override;
+  private:
+    std::set<Transition> transitions_;
 };
