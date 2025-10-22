@@ -1,0 +1,54 @@
+# Reconoce cadenas del alfabeto {a, b} y cuenta el número de a's y b's representandolo con 1's
+q0 q1 q1 q2 q3 q4 q5 q6 q7 q8 q9 q10
+a b 1
+a b 1 X Y .
+q0
+.
+q10
+2
+q0 a . q1 a S 1 R
+q0 b . q1 b S 1 R
+q0 . . q1 . S 1 R
+q1 a . q2 a S . R
+q1 b . q2 b S . R
+q1 . . q2 . S . R
+q2 a . q3 a S 1 L
+q2 b . q3 b S 1 L
+q2 . . q3 . S 1 L
+q3 a . q4 a S . L
+q3 b . q4 b S . L
+q3 . . q4 . S . L
+q4 a 1 q5 X R 1 L
+q4 b 1 q6 Y R 1 R
+q4 X 1 q4 X L 1 S
+q4 Y 1 q4 Y L 1 S
+q4 . 1 q10 . R 1 S
+q5 a . q4 a S 1 S
+q5 b . q4 b S 1 S
+q5 a 1 q4 a S 1 L
+q5 b 1 q4 b S 1 L
+q5 . . q4 . L 1 S
+q6 a 1 q6 a S 1 R
+q6 b 1 q6 b S 1 R
+q6 . 1 q6 . S 1 R
+q6 a . q7 a S . R
+q6 b . q7 b S . R
+q6 . . q7 . S . R
+q7 a 1 q7 a S 1 R
+q7 b 1 q7 b S 1 R
+q7 . 1 q7 . S 1 R
+q7 a . q8 a S 1 L
+q7 b . q8 b S 1 L
+q7 . . q8 . S 1 L
+q8 a 1 q8 a S 1 L
+q8 b 1 q8 b S 1 L
+q8 . 1 q8 . S 1 L
+q8 a . q9 a S . L
+q8 b . q9 b S . L
+q8 . . q9 . S . L
+q9 a 1 q9 a S 1 L
+q9 b 1 q9 b S 1 L
+q9 . 1 q9 . S 1 L
+q9 a . q4 a S . R
+q9 b . q4 b S . R
+q9 . . q4 . L . R
