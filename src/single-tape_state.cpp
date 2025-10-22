@@ -13,14 +13,15 @@
   *     // 
 */
 #include <iostream>
-#include "../include/state.hpp"
+#include "../include/single-tape_state.hpp"
 
 /**
  * @brief Adds a transition to the state.
  * @param transition The transition to add.
  */
-void State::AddTransition(const TransitionParams& transition) {
-  transitions_.emplace(new Transition(transition));
+void SingleTapeState::AddTransition(const TransitionParams& transition) {
+  Transition new_transition(transition);
+  transitions_.emplace(new_transition);
 }
 
 /**
@@ -29,7 +30,7 @@ void State::AddTransition(const TransitionParams& transition) {
  * @param write_symbol The symbol to write.
  * @return True if the transition exists, false otherwise.
  */
-bool State::HasTransition(const Symbol& read_symbol, const Symbol& write_symbol) const {
+bool SingleTapeState::HasTransition(const Symbol& read_symbol, const Symbol& write_symbol) const {
   for (const auto& transition : transitions_) {
     if (transition.GetSymbol() == read_symbol && transition.GetWriteSymbol() == write_symbol) {
       return true;
@@ -38,10 +39,19 @@ bool State::HasTransition(const Symbol& read_symbol, const Symbol& write_symbol)
   return false;
 }
 
+std::optional<TransitionParams> SingleTapeState::GetTransition(const Symbol& symbol) const {
+  for (const auto& transition : transitions_) {
+    if (transition.GetSymbol() == symbol) {
+      return transition.GetTransition();
+    }
+  }
+  return std::nullopt;
+}
+
 /**
  * @brief Prints all transitions of the state.
  */
-void State::PrintTransitions() const {
+void SingleTapeState::PrintTransitions() const {
   for (const auto& transition : transitions_) {
     std::cout << this->GetID() << " " << transition.GetSymbol().GetValue()
               << " " << transition.GetNextState() << " "
