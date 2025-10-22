@@ -93,7 +93,7 @@ SingleTapeTuringMachine::SingleTapeTuringMachine(const std::string& config_file_
       std::string blank_symbol;
       if (flujo >> blank_symbol) {
         if (blank_symbol.size() > 1) {
-          throw std::runtime_error("\033[1;31mStack symbol too long\033[0m");
+          throw std::runtime_error("\033[1;31mBlank symbol too long\033[0m");
         }
         this->blank_symbol_ = Symbol(blank_symbol[0]);
       } else throw std::runtime_error("\033[1;31mFailed to read blank symbol\033[0m");

@@ -24,6 +24,9 @@ class Tape {
     void WriteSymbol(const Symbol& symbol);
     void MoveHead(Movement move);
     void AddWord(const std::string& word);
+    void ResetHead() { head_ = 1; }
+    void FormatTape();
+    void ClearTape();
     void PrintTape() const;
   private:
     void PushFront(const Symbol& symbol) { tape_.push_front(symbol); }

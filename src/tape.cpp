@@ -76,6 +76,37 @@ void Tape::AddWord(const std::string& word) {
   tape_.push_back(blank_symbol_);
 }
 
+void Tape::FormatTape() {
+  if (tape_.empty()) return;
+
+  while (tape_.size() > 1) {
+    auto it = tape_.begin();
+    auto next_it = std::next(it);
+    if (it->GetValue() == blank_symbol_.GetValue() && next_it->GetValue() == blank_symbol_.GetValue() && tape_.size() != 3) {
+      tape_.erase(it);
+      if (head_ > 0) head_--;
+    } else break;
+  }
+
+  while (tape_.size() > 1) {
+    auto it = tape_.rbegin();
+    auto prev_it = std::next(it);
+    if (it->GetValue() == blank_symbol_.GetValue() && prev_it->GetValue() == blank_symbol_.GetValue() && tape_.size() != 3) {
+      tape_.erase(std::next(it).base());
+      if (head_ > 0) head_--;
+    } else break;
+  }
+  head_ = 1;
+}
+
+void Tape::ClearTape() {
+  tape_.clear();
+  tape_.push_back(blank_symbol_);
+  tape_.push_back(blank_symbol_);
+  tape_.push_back(blank_symbol_);
+  head_ = 1;
+}
+
 void Tape::PrintTape() const {
   int counter = 0;
   for (const Symbol& symbol : tape_) {

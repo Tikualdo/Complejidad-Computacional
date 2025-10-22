@@ -23,6 +23,8 @@ set(SOURCES
     src/single-tapeTM.cpp
     src/single-tape_state.cpp
     src/tape.cpp
+    src/multi-tapeTM.cpp
+    src/multi-tape_state.cpp
 )
 
 # Crear el ejecutable

@@ -25,10 +25,12 @@
 class MultiTapeTuringMachine : public TuringMachine {
   public:
     MultiTapeTuringMachine(const std::string& config_file_name);
-    bool Simulate(const std::string& input_file_name);
+    bool Simulate(const std::string& input) override;
+    void CheckInputs(const std::string& input_file_name);
   private:
     std::set<MultiTapeState> states_;
     MultiTapeState initial_state_;
     std::set<MultiTapeState> final_states_;
-    Tape tape_;
+    int num_tapes_;
+    std::vector<Tape> tapes_;
 };

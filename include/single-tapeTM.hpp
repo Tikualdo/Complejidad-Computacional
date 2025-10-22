@@ -16,7 +16,7 @@
 #include "alphabet.hpp"
 #include "transition.hpp"
 #include "single-tape_state.hpp"
-#include "tape_manager.hpp"
+#include "tape.hpp"
 #include "TM.hpp"
 
 /**
@@ -25,7 +25,7 @@
 class SingleTapeTuringMachine : public TuringMachine {
   public:
     SingleTapeTuringMachine(const std::string& config_file_name);
-    bool Simulate(const std::string& input_file_name) override;
+    bool Simulate(const std::string& input) override;
     void CheckInputs(const std::string& input_file_name);
   private:
     std::set<SingleTapeState> states_;

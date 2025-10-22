@@ -14,7 +14,8 @@
 */
 #include <iostream>
 #include <string>
-#include "../include/single-tapeTM.hpp"
+// #include "../include/single-tapeTM.hpp"
+#include "../include/multi-tapeTM.hpp"
 
 #include <iostream>
 
@@ -36,13 +37,15 @@ int main(int argc, char* argv[]) {
   int machine_type;
   std::cin >> machine_type;
 
+  std::cout << "\n=== RESULTADOS DE PRUEBAS ===\n";
+  std::string config_file_name = argv[1];
   if (machine_type == 1) {
-    std::string config_file_name = argv[1];
-    SingleTapeTuringMachine tm(config_file_name);
-    std::cout << "\n=== RESULTADOS DE PRUEBAS ===\n";
-    tm.CheckInputs(argv[2]);
+    // SingleTapeTuringMachine tm(config_file_name);
+    // tm.CheckInputs(argv[2]);
   } else if (machine_type == 2) {
-    std::cout << "\nHas seleccionado una máquina de Turing multicinta.\n";
+    MultiTapeTuringMachine tm(config_file_name);
+    // tm.Simulate(argv[2]);
+    tm.CheckInputs(argv[2]);
   } else {
     std::cout << "\nOpción no válida. Saliendo...\n";
     return 1;
