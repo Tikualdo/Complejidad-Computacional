@@ -25,10 +25,11 @@
 class SingleTapeTuringMachine : public TuringMachine {
   public:
     SingleTapeTuringMachine(const std::string& config_file_name);
-    bool Simulate(const std::string& input_file_name);
+    bool Simulate(const std::string& input_file_name) override;
+    void CheckInputs(const std::string& input_file_name);
   private:
     std::set<SingleTapeState> states_;
     SingleTapeState initial_state_;
     std::set<SingleTapeState> final_states_;
-    TapeManager tape_manager_;
+    Tape tape_;
 };

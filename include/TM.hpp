@@ -22,7 +22,7 @@
 class TuringMachine {
   public:
     virtual bool Simulate(const std::string& input_file_name) = 0;
-  private:
+  protected:
     Alphabet input_symbols_alphabet_;
     Alphabet tape_symbols_alphabet_;
     Symbol blank_symbol_;

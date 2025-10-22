@@ -26,6 +26,9 @@ class State {
     friend bool operator<(const State& state1, const State& state2) {
       return state1.GetID() < state2.GetID();
     }
+    friend bool operator==(const State& state1, const State& state2) {
+      return state1.GetID() == state2.GetID();
+    }
   protected:
     std::string id_;
 };

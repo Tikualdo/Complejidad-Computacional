@@ -14,6 +14,7 @@
 */
 #pragma once
 #include <set>
+#include <optional>
 #include "types.hpp"
 #include "transition.hpp"
 #include "state.hpp"
@@ -26,6 +27,7 @@ class SingleTapeState : public State {
     const std::set<Transition>& GetTransitions() const { return transitions_; }
     void AddTransition(const TransitionParams& params);
     bool HasTransition(const Symbol& read_symbol, const Symbol& write_symbol) const;
+    std::optional<TransitionParams> GetTransition(const Symbol& symbol) const;
     void PrintTransitions() const override;
   private:
     std::set<Transition> transitions_;
