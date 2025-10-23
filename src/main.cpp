@@ -14,41 +14,41 @@
 */
 #include <iostream>
 #include <string>
-// #include "../include/single-tapeTM.hpp"
+#include "../include/colors.hpp"
 #include "../include/multi-tapeTM.hpp"
 
 #include <iostream>
 
 int main(int argc, char* argv[]) {
+  std::cout << CYAN << BOLD;
   std::cout << "===========================================\n";
   std::cout << "      Máquina de Turing Determinista       \n";
   std::cout << "===========================================\n\n";
+  std::cout << RESET;
 
   if (argc < 3) {
-    std::cerr << "Error: Se requiere un archivo de configuración y de entrada.\n";
+    std::cerr << RED << BOLD << "❌ Error: " << RESET
+              << "Se requiere un archivo de configuración y otro de entrada.\n\n";
+    std::cout << YELLOW << "Uso correcto: " << RESET
+              << "./tm <archivo_config> <archivo_entrada>\n";
     return 1;
   }
 
-  std::cout << "Selecciona el tipo de máquina de Turing:\n";
-  std::cout << "  1) Cinta simple (Single-tape)\n";
-  std::cout << "  2) Multicinta (Multi-tape)\n";
-  std::cout << "Opción: ";
-
-  int machine_type;
-  std::cin >> machine_type;
-
-  std::cout << "\n=== RESULTADOS DE PRUEBAS ===\n";
+  // Mostrar archivo de configuración cargado
   std::string config_file_name = argv[1];
-  if (machine_type == 1) {
-    // SingleTapeTuringMachine tm(config_file_name);
-    // tm.CheckInputs(argv[2]);
-  } else if (machine_type == 2) {
-    MultiTapeTuringMachine tm(config_file_name);
-    // tm.Simulate(argv[2]);
-    tm.CheckInputs(argv[2]);
-  } else {
-    std::cout << "\nOpción no válida. Saliendo...\n";
-    return 1;
-  }
+  std::cout << GREEN << "✔ Archivo de configuración detectado: " 
+            << RESET << config_file_name << "\n\n";
+
+  // Mensaje interactivo antes de iniciar simulación
+  std::cout << MAGENTA << "👉 Presiona " << BOLD << "Enter" << RESET << MAGENTA
+            << " para simular la máquina de Turing..." << RESET << "\n";
+  std::cin.ignore();
+
+  std::cout << BOLD << CYAN << "=== RESULTADOS DE PRUEBAS ===\n" << RESET;
+  MultiTapeTuringMachine tm(config_file_name);
+  tm.CheckInputs(argv[2]);
+
+  std::cout << BOLD << CYAN << "\nFin de la simulación\n" << RESET;
+
   return 0;
 }

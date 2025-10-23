@@ -20,6 +20,9 @@
 #include "transition.hpp"
 #include "state.hpp"
 
+/**
+ * @brief Represents the state of a multi-tape Turing machine.
+ */
 class MultiTapeState : public State {
   public:
     MultiTapeState(const std::string& id) : State(id) {}

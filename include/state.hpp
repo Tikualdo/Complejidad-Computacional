@@ -17,6 +17,9 @@
 #include "types.hpp"
 #include "transition.hpp"
 
+/**
+ * @brief Represents the state of a Turing machine.
+ */
 class State {
   public:
     State(const std::string& id) : id_(id) {}

@@ -16,6 +16,9 @@
 #include "types.hpp"
 #include "symbol.hpp"
 
+/**
+ * @brief Represents a tape in a Turing machine.
+ */
 class Tape {
   public:
     Tape(const Symbol& blank_symbol);

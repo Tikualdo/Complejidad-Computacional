@@ -39,6 +39,11 @@ bool MultiTapeState::HasTransition(std::vector<Symbol> read_symbols, std::vector
   return false;
 }
 
+/**
+ * @brief Gets the transition for a specific set of read symbols.
+ * @param read_symbols The symbols to read.
+ * @return An optional vector of transitions if found, otherwise nullopt.
+ */
 std::optional<std::vector<Transition>> MultiTapeState::GetTransition(const std::vector<Symbol>& read_symbols) const {
   for (const auto& transition : transitions_) {
     if (transition.size() == read_symbols.size()) {

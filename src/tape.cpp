@@ -76,6 +76,9 @@ void Tape::AddWord(const std::string& word) {
   tape_.push_back(blank_symbol_);
 }
 
+/**
+ * @brief Formats the tape by removing unnecessary blank symbols.
+ */
 void Tape::FormatTape() {
   if (tape_.empty()) return;
 
@@ -99,6 +102,9 @@ void Tape::FormatTape() {
   head_ = 1;
 }
 
+/**
+ * @brief Clears the tape and resets the head position.
+ */
 void Tape::ClearTape() {
   tape_.clear();
   tape_.push_back(blank_symbol_);
@@ -107,6 +113,9 @@ void Tape::ClearTape() {
   head_ = 1;
 }
 
+/**
+ * @brief Prints the contents of the tape.
+ */
 void Tape::PrintTape() const {
   int counter = 0;
   for (const Symbol& symbol : tape_) {

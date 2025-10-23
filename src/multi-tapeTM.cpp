@@ -16,6 +16,7 @@
 #include <fstream>
 #include <sstream>
 #include <iomanip>
+#include "../include/colors.hpp"
 #include "../include/multi-tapeTM.hpp"
 
 MultiTapeTuringMachine::MultiTapeTuringMachine(const std::string& config_file_name) {
@@ -91,6 +92,9 @@ MultiTapeTuringMachine::MultiTapeTuringMachine(const std::string& config_file_na
           throw std::runtime_error("\033[1;31mBlank symbol too long\033[0m");
         }
         this->blank_symbol_ = Symbol(blank_symbol[0]);
+        if (this->tape_symbols_alphabet_.GetSymbols().find(this->blank_symbol_) == this->tape_symbols_alphabet_.GetSymbols().end()) {
+          throw std::runtime_error("\033[1;31mBlank symbol must be part of the tape symbols alphabet\033[0m");
+        }
       } else throw std::runtime_error("\033[1;31mFailed to read blank symbol\033[0m");
       if (this->input_symbols_alphabet_.GetSymbols().find(this->blank_symbol_) != this->input_symbols_alphabet_.GetSymbols().end()) {
         throw std::runtime_error("\033[1;31mBlank symbol must not be part of the input symbols alphabet\033[0m");
@@ -230,6 +234,10 @@ MultiTapeTuringMachine::MultiTapeTuringMachine(const std::string& config_file_na
   }
 }
 
+/**
+ * @brief Simulates the multi-tape Turing machine on the given input.
+ * @param input The input string to process.
+ */
 bool MultiTapeTuringMachine::Simulate(const std::string& input) {
   for (auto& tape : this->tapes_) {
     tape.ClearTape();
@@ -261,11 +269,6 @@ bool MultiTapeTuringMachine::Simulate(const std::string& input) {
       continue;
     }
 
-    current_state.PrintTransitions();
-    for (const auto& tape : this->tapes_) {
-      tape.PrintTape();
-    }
-
     // Get the transition for the current state and symbols
     auto maybe_params = current_state.GetTransition(current_symbols);
     if (maybe_params) {
@@ -281,12 +284,16 @@ bool MultiTapeTuringMachine::Simulate(const std::string& input) {
     } else {
       for (const auto& state : this->final_states_) {
         if (state == current_state) {
-          std::cout << std::left << std::setw(15) << input << " → ✅  ACEPTADA\n";
-          // for (auto& tape : this->tapes_) {
-          //   tape.ResetHead();
-          //   tape.FormatTape();
-          //   tape.PrintTape();
-          // }
+          std::cout << BOLD << YELLOW << std::left << std::setw(15) << input << RESET << "→ " << GREEN << "✅  ACEPTADA\n" << RESET;
+          int counter_tape = 1;
+          for (auto& tape : this->tapes_) {
+            tape.ResetHead();
+            tape.FormatTape();
+            std::cout << GRAY "Tape " << counter_tape << ": " BLUE;
+            tape.PrintTape();
+            std::cout << RESET;
+            counter_tape++;
+          }
           return true;
         }
       }
@@ -296,15 +303,23 @@ bool MultiTapeTuringMachine::Simulate(const std::string& input) {
       ends_iterators[i] = tapes_[i].GetTapeContents().end();
     }
   }
-  std::cout << std::left << std::setw(15) << input << " → ❌  RECHAZADA\n";
-  // for (auto& tape : this->tapes_) {
-  //   tape.ResetHead();
-  //   tape.FormatTape();
-  //   tape.PrintTape();
-  // }
+  std::cout << BOLD << YELLOW << std::left << std::setw(15) << input << RESET << "→ "  << RED << "❌  RECHAZADA\n" << RESET;
+  int counter_tape = 1;
+  for (auto& tape : this->tapes_) {
+    tape.ResetHead();
+    tape.FormatTape();
+    std::cout << GRAY "Tape " << counter_tape << ": " BLUE;
+    tape.PrintTape();
+    std::cout << RESET;
+    counter_tape++;
+  }
   return false;
 }
 
+/**
+ * @brief Checks the inputs from a file and simulates the Turing machine.
+ * @param input_file_name The name of the input file.
+ */
 void MultiTapeTuringMachine::CheckInputs(const std::string& input_file_name) {
   std::ifstream input_file(input_file_name);
   if (!input_file.is_open()) {

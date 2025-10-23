@@ -25,6 +25,10 @@ enum class Movement {
   STAY
 };
 
+/**
+ * @brief Converts a Movement enum to a string representation.
+ * @param movement The movement direction.
+ */
 inline std::string ToString(Movement movement) {
   switch (movement) {
     case Movement::LEFT:  return "LEFT";

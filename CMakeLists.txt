@@ -20,8 +20,6 @@ include_directories(${PROJECT_SOURCE_DIR}/include)
 # Lista de archivos fuente
 set(SOURCES
     src/main.cpp
-    src/single-tapeTM.cpp
-    src/single-tape_state.cpp
     src/tape.cpp
     src/multi-tapeTM.cpp
     src/multi-tape_state.cpp
