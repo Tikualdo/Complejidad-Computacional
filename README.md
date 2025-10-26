@@ -13,4 +13,6 @@ Contiene diferentes prácticas organizadas en ramas.
 - 💾 **[P02](https://github.com/Tikualdo/Complejidad-Computacional/tree/P02)**  
   Segunda práctica: Simulador de una máquina de Turing Determinista.
 
+- 🔄 **[P03](https://github.com/Tikualdo/Complejidad-Computacional/tree/P03)**  
+  Tercera práctica: Implementación de Funciones Primitivas Recursivas.
 ---
