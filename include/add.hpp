@@ -20,11 +20,8 @@
 class Add : public RPF {
   public:
     int operate(std::initializer_list<IntOrVector> elements) override;
-    int GetCalls() const { return calls_; }
-    void reset_calls() { projection_.reset_calls(); sucesor_.reset_calls(); }
-    void PrintCalls() const;
+    const char* get_name() const override { return "Add"; }
   private:
     Projection projection_;
     Sucesor sucesor_;
-    int calls_ = 0;
 };

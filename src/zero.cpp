@@ -21,10 +21,6 @@
  */
 int Zero::operate(std::initializer_list<IntOrVector> elements) {
   if (elements.size() != 1) throw std::invalid_argument("\033[1;31mInvalid number of arguments to recursive primitive function 'Zero'\033[0m");
-  calls_++;
+  increment_call_count();
   return 0;
-}
-
-void Zero::PrintCalls() const {
-  std::cout << "Zero calls: " << calls_ << std::endl;
 }

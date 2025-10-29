@@ -22,9 +22,9 @@
  */
 int Add::operate(std::initializer_list<IntOrVector> elements) {
   if (elements.size() != 2) throw std::invalid_argument("\033[1;31mInvalid number of arguments to recursive primitive function 'Add'\033[0m");
+  increment_call_count();
   const auto& first_element = *elements.begin();
   const auto& second_element = *(elements.begin() + 1);
-  calls_++;
   return std::visit([this](auto&& arg1, auto&& arg2) -> int {
     using type1 = std::decay_t<decltype(arg1)>;
     using type2 = std::decay_t<decltype(arg2)>;
@@ -45,10 +45,4 @@ int Add::operate(std::initializer_list<IntOrVector> elements) {
       return this->sucesor_.operate({this->projection_.operate({3, std::vector<int>{operator1, new_operator2, this->operate({operator1, new_operator2})}})});
     } else throw std::invalid_argument("\033[1;31mInvalid argument types to recursive primitive function 'Add'\033[0m");
   }, first_element, second_element);
-}
-
-void Add::PrintCalls() const {
-  std::cout << "Add calls: " << calls_ << std::endl;
-  projection_.PrintCalls();
-  sucesor_.PrintCalls();
 }

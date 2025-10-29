@@ -21,11 +21,8 @@
 class Product : public RPF {
   public:
     int operate(std::initializer_list<IntOrVector> elements) override;
-    int GetCalls() const { return calls_; }
-    void reset_calls() { add_.reset_calls(); zero_.reset_calls(); }
-    void PrintCalls() const;
+    const char* get_name() const override { return "Product"; }
   private:
     Add add_;
     Zero zero_;
-    int calls_ = 0;
 };

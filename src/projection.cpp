@@ -24,7 +24,7 @@ int Projection::operate(std::initializer_list<IntOrVector> elements) {
   if (elements.size() != 2) throw std::invalid_argument("\033[1;31mInvalid number of arguments to recursive primitive function 'Projection'\033[0m");
   const auto& first_element = *elements.begin();
   const auto& second_element = *(elements.begin() + 1);
-  calls_++;
+  increment_call_count();
   return std::visit([](auto&& arg1, auto&& arg2) -> int {
     using type1 = std::decay_t<decltype(arg1)>;
     using type2 = std::decay_t<decltype(arg2)>;
@@ -37,8 +37,4 @@ int Projection::operate(std::initializer_list<IntOrVector> elements) {
       throw std::invalid_argument("\033[1;31mInvalid argument types in recursive primitive function 'Projection'\033[0m");
     }
   }, first_element, second_element);
-}
-
-void Projection::PrintCalls() const {
-  std::cout << "Projection calls: " << calls_ << std::endl;
 }

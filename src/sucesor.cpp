@@ -22,7 +22,7 @@
  */
 int Sucesor::operate(std::initializer_list<IntOrVector> elements) {
   if (elements.size() != 1) throw std::invalid_argument("\033[1;31mInvalid number of arguments to recursive primitive function 'Sucesor'\033[0m");
-  calls_++;
+  increment_call_count();
   return std::visit([](auto&& arg) -> int {
     using T = std::decay_t<decltype(arg)>;
     if constexpr (std::is_same_v<T, int>) {
@@ -31,8 +31,4 @@ int Sucesor::operate(std::initializer_list<IntOrVector> elements) {
       throw std::invalid_argument("\033[1;31mInvalid argument type to recursive primitive function 'Sucesor'\033[0m");
     }
   }, *elements.begin());
-}
-
-void Sucesor::PrintCalls() const {
-  std::cout << "Sucesor calls: " << calls_ << std::endl;
 }

@@ -17,9 +17,9 @@
 
 int Pow::operate(std::initializer_list<IntOrVector> elements) {
   if (elements.size() != 2) throw std::invalid_argument("\033[1;31mInvalid number of arguments to recursive primitive function 'Pow'\033[0m");
+  increment_call_count();
   const auto& first_element = *elements.begin();
   const auto& second_element = *(elements.begin() + 1);
-  this->AddCall();
   return std::visit([this](auto&& arg1, auto&& arg2) -> int {
     using type1 = std::decay_t<decltype(arg1)>;
     using type2 = std::decay_t<decltype(arg2)>;
@@ -35,10 +35,4 @@ int Pow::operate(std::initializer_list<IntOrVector> elements) {
       return this->product_.operate({operator1, this->operate({operator1, --operator2})});
     } else throw std::invalid_argument("\033[1;31mInvalid argument types to recursive primitive function 'Pow'\033[0m");
   }, first_element, second_element);
-}
-
-void Pow::PrintCalls() const {
-  std::cout << "Pow calls: " << calls_ << std::endl;
-  product_.PrintCalls();
-  one_.PrintCalls();
 }

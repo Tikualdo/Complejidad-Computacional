@@ -18,9 +18,5 @@
 class Projection : public RPF {
   public:
     int operate(std::initializer_list<IntOrVector> elements) override;
-    int GetCalls() const { return calls_; }
-    void reset_calls() { calls_ = 0; }
-    void PrintCalls() const;
-  private:
-    int calls_ = 0;
+    const char* get_name() const override { return "Projection"; }
 };

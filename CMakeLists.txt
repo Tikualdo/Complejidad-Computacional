@@ -19,6 +19,7 @@ include_directories(${PROJECT_SOURCE_DIR}/include)
 
 # Lista de archivos fuente
 set(SOURCES
+    src/RPF.cpp
     src/main.cpp
     src/projection.cpp
     src/sucesor.cpp
