@@ -42,4 +42,13 @@ void RPF::display_counts() {
   std::cout << Color::BOLD << Color::BLUE
             << "-------------------------------------------"
             << Color::RESET << std::endl;
+  int total_calls = 0;
+  for (const auto& pair : call_counts) {
+    total_calls += pair.second;
+  }
+  std::cout << "  " 
+            << Color::RED << Color::BOLD << std::left << std::setw(15) << "Total"
+            << Color::DIM << " calls: "
+            << Color::RESET << Color::BOLD << Color::BRIGHT_YELLOW << total_calls
+            << Color::RESET << std::endl;
 }
