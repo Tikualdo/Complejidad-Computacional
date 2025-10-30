@@ -101,4 +101,5 @@ El programa funciona de manera interactiva, solicitando los valores por teclado.
       Sucesor    calls: 15
       Zero       calls: 4
     -------------------------------------------
+      Total      calls: 76
     ```
