@@ -1,88 +1,78 @@
-# 🧠 Complejidad Computacional  
-## Práctica 1 --- Simulador de Autómata con Pila  
-
-### Datos personales  
-- **Nombre:** Paulo Padilla Domingues
-- **Correo:** alu0101571836@ull.edu.es
-- **Grupo:** PE101
-- **Fecha de entrega:** 09 de octubre de 2025  
+# Pushdown Automaton Simulator  
 
 ## 📜 Descripción General
 
-Esta práctica consiste en **implementar un simulador de un Autómata con Pila (AP)**. El simulador permite:
+This project implements a **Pushdown Automaton (PDA) Simulator**. The simulator allows users to:
 
-- Leer la definición del autómata desde un fichero de texto.  
-- Comprobar múltiples cadenas de entrada.  
-- Mostrar si cada cadena **es aceptada o no** por el lenguaje.  
-- (Opcional) Ejecutar en **modo traza**, mostrando el proceso paso a paso.
+- Read the automaton's definition from a text file.  
+- Evaluate multiple input strings.  
+- Determine whether each string is **accepted or rejected** by the specified language.  
+- (Optional) Run in **trace mode** to display the step-by-step execution process.
 
-## ⚙️ Tipo de Autómata Implementado
+## ⚙️ Automaton Type
 
-Se ha implementado un **Autómata con Pila (AP)** con aceptación por **estado final (APf)**  
+The implemented model is a **Pushdown Automaton (PDA)** that accepts by **final state**.  
 
-## 📄 Formato del Archivo de Configuración
+## 📄 Configuration File Format
 
-El fichero de configuración del autómata debe cumplir el siguiente formato:
+The automaton's configuration file must follow this exact structure:
 
 ```bash
-# Comentarios (opcional)
-
-q1 q2 q3      # Estados del autómata (Q)
-a b           # Símbolos del lenguaje (Σ)
-S A           # Símbolos de la pila (Γ)
-q1            # Estado inicial
-S             # Símbolo inicial de la pila
-q3            # Estado final
-q1 a S q1 AS  # Transiciones
+q1 q2 q3      # Automaton states (Q)
+a b           # Language alphabet (Σ)
+S A           # Stack alphabet (Γ)
+q1            # Initial state
+S             # Initial stack symbol
+q3            # Final state
+q1 a S q1 AS  # Transitions
 ...
 ```
 
-## 🧱 Estructura del Código
+## 🧱 Project Structure
 
-El proyecto se ha desarrollado siguiendo un diseño **orientado a objetos**, dividiendo la funcionalidad principal en varias clases y ficheros para mejorar la organización y la claridad del código.
+The software is built using an object-oriented design, dividing the core functionality into distinct classes to improve code organization and clarity.
 
 Estructura general del proyecto:
 ```bash
 .
-├── CFiles # Ficheros de configuración de los automatas (APf, APv, etc.).
-├── InputFiles # Ficheros con las cadenas de entrada.
-├── include # Archivos de cabecera (.hpp) con las definiciones de clases.
-└── src # Código fuente (.cpp) del simulador.
+├── CFiles      # Automaton configuration files.
+├── InputFiles  # Input text files with the strings to evaluate.
+├── include     # Header files (.hpp) with class definitions.
+└── src         # Simulator source code (.cpp).
 ```
-## 🏗️ Compilación, build y ejecución
+## 🏗️ Build & Execution
 
-Para compilar el proyecto, se debe utilizar el sistema de construcción `CMake`. Para ello, se debe hacer lo siguiente:
+The project uses `CMake` as its build system. Follow these steps to compile and run:
 
-1. Crear un directorio de construcción dentro del directorio raíz del proyecto:
+1. Create a build directory in the project root:
    ```bash
    mkdir build
    cd build
    ```
 
-2. Ejecutar `CMake` para configurar el proyecto:
+2. Run CMake to configure the project:
    ```bash
    cmake ..
    ```
 
-3. Compilar el proyecto utilizando `make`:
+3. Compile the code using `make`:
    ```bash
    make
    ```
 
-4. Ejecutar el simulador con un fichero de entrada correspondiente a cada autómata por su número:
+4. Run the simulator by passing a configuration file and an input file as arguments:
    ```txt
    ./STACK_AUTOMATON_SIMULATOR ../CFiles/APf-X.txt ../InputFiles/input-X.txt [--debug | -d]
    ```
 
-## 🧪 Ficheros de Configuración Utilizados
+## 🧪 Provided Configuration Files
 
-Los **ficheros de configuración** del autómata se encuentran en la carpeta `CFiles/`.  
-Cada uno define un autómata diferente con su propio lenguaje reconocido.
+Several predefined automaton configuration files are available in the `CFiles/`directory. Each file models an automaton for a specific formal language.
 
-| Fichero | Descripción | Lenguaje reconocido |
+| File | Description | Recognized Language |
 |----------|--------------|---------------------|
-| **`CFiles/APf-1.txt`** | Autómata que reconoce cadenas del tipo `aⁿbⁿ` | L = { aⁿbⁿ ∣ n > 0 } |
-| **`CFiles/APf-2.txt`** | Autómata que reconoce cadenas palíndromas de longitud par | L = { ww<sup>R</sup> ∣ w ∈ {a,b,c}* donde w<sup>R</sup> es w invertido } |
-| **`CFiles/APf-3.txt`** | Autómata que reconoce cadenas del tipo `aⁿbⁿ` | L = { aⁿbⁿ ∣ n ≥ 0 } |
-| **`CFiles/APf-4.txt`** | Autómata que reconoce cadenas palíndromas de longitud par | L = { ww<sup>R</sup> ∣ w ∈ {0,1}* donde w<sup>R</sup> es w invertido } |
-| **`CFiles/APf-5.txt`** | Autómata que reconoce cadenas del tipo `aⁱbᵗcᵏ` | L = { a<sup>i</sup>b<sup>t</sup>c<sup>k</sup>b ∣ i, t, k ≥ 1} |
+| **`CFiles/APf-1.txt`** | Recognizes `aⁿbⁿ` strings | L = { aⁿbⁿ ∣ n > 0 } |
+| **`CFiles/APf-2.txt`** | Recognizes even-length palindromes | L = { ww<sup>R</sup> ∣ w ∈ {a,b,c}* where w<sup>R</sup> is w reversed } |
+| **`CFiles/APf-3.txt`** | Recognizes `aⁿbⁿ` strings (including empty) | L = { aⁿbⁿ ∣ n ≥ 0 } |
+| **`CFiles/APf-4.txt`** | Recognizes binary even-length palindromes | L = { ww<sup>R</sup> ∣ w ∈ {0,1}* where w<sup>R</sup> is w reversed } |
+| **`CFiles/APf-5.txt`** | Recognizes `aⁱbᵗcᵏ` sequences | L = { a<sup>i</sup>b<sup>t</sup>c<sup>k</sup>b ∣ i, t, k ≥ 1} |
