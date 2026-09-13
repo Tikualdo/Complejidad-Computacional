@@ -1,18 +1,16 @@
-# ⏳ Complejidad Computacional
+# ⏳ Computational models
 
-Repositorio de la asignatura **Complejidad Computacional**.  
-Contiene diferentes prácticas organizadas en ramas.
+A collection of implementations for fundamental computational models and algorithms.  
+Each project is organized in its own branch.
 
 ---
 
-## 📁 Estructura del repositorio
+## 📁 Repository Structure
 
-- 🕸️ **[P01](https://github.com/Tikualdo/Complejidad-Computacional/tree/P01)**  
-  Primera práctica: Simulador de un autómata de pila.
+- 🕸️ **[Pushdown Automaton Simulator.](https://github.com/Tikualdo/Complejidad-Computacional/tree/P01)**  
 
-- 💾 **[P02](https://github.com/Tikualdo/Complejidad-Computacional/tree/P02)**  
-  Segunda práctica: Simulador de una máquina de Turing Determinista.
+- 💾 **[Deterministic Turing Machine Simulator.](https://github.com/Tikualdo/Complejidad-Computacional/tree/P02)**  
 
-- 🔄 **[P03](https://github.com/Tikualdo/Complejidad-Computacional/tree/P03)**  
-  Tercera práctica: Implementación de Funciones Primitivas Recursivas.
+- 🔄 **[Implementation of Primitive Recursive Functions.](https://github.com/Tikualdo/Complejidad-Computacional/tree/P03)**  
+
 ---
