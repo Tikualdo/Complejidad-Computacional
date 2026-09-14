@@ -1,33 +1,26 @@
-# 🧠 Complejidad Computacional
-## Práctica 3 --- Implementación de Funciones Primitivas Recursivas
-
-### Datos personales
-- **Nombre:** Paulo Padilla Domingues
-- **Correo:** alu0101571836@ull.edu.es
-- **Grupo:** PE101
-- **Fecha de entrega:** 30 de octubre de 2025
+# Recursive Primitive Functions Implementation
 
 ## 📜 Descripción General
 
-El objetivo de esta práctica es implementar un programa en C++ que calcule la función **potencia(x, y)**, tratándola como una **Función Primitiva Recursiva (FPR)**.
+The objective of this project is to implement a C++ program that calculates the **pow(x, y)**function, treating it as a **Recursive Primitive Function (RPF)**.
 
-El diseño es puramente **orientado a objetos**, donde cada función primitiva (como `Suma`, `Producto`, etc.) es una clase que hereda de una clase base abstracta `RPF`. El programa no solo calcula el resultado final, sino que también **contabiliza y muestra el número total de llamadas** a cada una de las funciones primitivas utilizadas durante el cómputo.
+The design is purely **object-oriented**, where each primitive function (such as `Add`, `Product`, etc.) is a class that inherits from an abstract base class `RPF`. The program not only calculates the final result but also **counts and displays the total number of calls** to each of the primitive functions used during the computation.
 
-## 🧩 Funciones Primitivas Recursivas Implementadas
+## 🧩 Implemented Recursive Primitive Functions
 
-Para construir la función `potencia(x, y)`, es necesario implementar primero las funciones iniciales y, a partir de ellas, crear funciones más complejas mediante composición y recursión. Las funciones implementadas son:
+To build the `pow(x, y)` function, it is necessary to first implement the initial functions and, from them, create more complex functions through composition and recursion. The implemented functions are:
 
-| Función | Definición Matemática | Dependencias |
+| Function | Mathematical Definition | Dependencies |
 | :--- | :--- | :--- |
 | **Zero** | `Zero(x) = 0` | - |
-| **Sucesor** | `Sucesor(x) = x + 1` | - |
-| **Proyección** | `Pᵢⁿ(x₁, ..., xₙ) = xᵢ` | - |
-| **One** | `One(x) = Sucesor(Zero(x))` | `Zero`, `Sucesor` |
-| **Suma** | `Add(x, y)` | `Sucesor`, `Proyección` |
-| **Producto** | `Product(x, y)` | `Suma`, `Zero` |
-| **Potencia** | `Pow(x, y)` | `Producto`, `One` |
+| **Sucessor** | `Sucessor(x) = x + 1` | - |
+| **Projection** | `Pᵢⁿ(x₁, ..., xₙ) = xᵢ` | - |
+| **One** | `One(x) = Sucessor(Zero(x))` | `Zero`, `Sucessor` |
+| **Add** | `Add(x, y)` | `Sucessor`, `Projection` |
+| **Product** | `Product(x, y)` | `Add`, `Zero` |
+| **Power** | `Pow(x, y)` | `Product`, `One` |
 
-## 📂 Estructura del proyecto
+## 📂 Project Structure
 
 ┣ 📂 include/    
 ┃ ┣ [add.hpp](include/add.hpp)  
@@ -51,55 +44,55 @@ Para construir la función `potencia(x, y)`, es necesario implementar primero la
 ┃ ┗ [zero.cpp](src/zero.cpp)  
 ┗ 🛠️ [CMakeLists.txt](CMakeLists.txt)  
 
-## 🏗️ Compilación, build y ejecución
+## 🏗️ Compilation, Build, and Execution
 
-Para compilar el proyecto, se debe utilizar el sistema de construcción `CMake`. Para ello, se debe hacer lo siguiente:
+To compile the project, the `CMake` build system must be used. To do this, follow these steps:
 
-1. Crear un directorio de construcción dentro del directorio raíz del proyecto:
+1. Create a build directory inside the project's root directory:
    ```bash
    mkdir build
    cd build
    ```
 
-2. Ejecutar `CMake` para configurar el proyecto:
+2. Run `CMake` to configure the project:
    ```bash
    cmake ..
    ```
 
-3. Compilar el proyecto utilizando `make`:
+3. Compile the project using `make`:
    ```bash
    make
    ```
 
-4. Ejecutar el programa
+4. Run the program:
    ```bash
    ./RECURSIVE_PRIMITIVE_FUNCTIONS
    ```
 
-## ⌨️ Formato de Entrada y Salida
+## ⌨️ Input and Output Format
 
-El programa funciona de manera interactiva, solicitando los valores por teclado.
+The program works interactively, requesting values via keyboard.
 
-* **Entrada**: Se solicitan dos números enteros no negativos: la **base** y el **exponente**. Para finalizar el programa, se debe introducir `-1`.
+* **Entrada**: Two non-negative integers are requested: the **base** and the **exponent**. To exit the program, `-1` must be entered.
 
-* **Salida**: Por cada par de números introducidos, el programa mostrará:
-    1. El **resultado** de la operación `bᵉ`.
-    2. Un **reporte detallado** con el número de llamadas realizadas a cada función primitiva.
+* **Salida**: For each pair of numbers entered, the program will display:
+    1. The **result** of the `bᵉ` operation.
+    2. A **detailed report** with the number of calls made to each primitive function.
 
-    **Ejemplo de ejecución:**
+    **Execution example:**
     ```
-    ======= OPERACIÓN POTENCIA (FPR) =======
-    Ingrese la base (-1 para salir): 2
-    Ingrese el exponente: 3
-    Resultado: 8
-    --- 📊 Reporte de Llamadas a Funciones ---
-      Add        calls: 21
-      One        calls: 1
-      Pow        calls: 4
-      Product    calls: 10
-      Projection calls: 21
-      Sucesor    calls: 15
-      Zero       calls: 4
-    -------------------------------------------
-      Total      calls: 76
+      ======= POWER OPERATION (RPF) =======
+      Enter the base (-1 to exit): 2
+      Enter the exponent: 3
+      Result: 8
+      --- 📊 Function Calls Report ---
+        Add        calls: 21
+        One        calls: 1
+        Pow        calls: 4
+        Product    calls: 10
+        Projection calls: 21
+        Successor  calls: 15
+        Zero       calls: 4
+      -------------------------------------------
+        Total      calls: 76
     ```
