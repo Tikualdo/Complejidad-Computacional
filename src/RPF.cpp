@@ -22,11 +22,11 @@
  */
 void RPF::display_counts() {
   std::cout << Color::BOLD << Color::BLUE 
-            << "--- 📊 Reporte de Llamadas a Funciones ---" 
+            << "--- 📊 Function Calls Report ---" 
             << Color::RESET << std::endl;
 
   if (call_counts.empty()) {
-    std::cout << Color::DIM << "No se ha llamado a ninguna función." 
+    std::cout << Color::DIM << "No function has been called." 
               << Color::RESET << std::endl;
     return;
   }

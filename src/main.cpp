@@ -26,27 +26,27 @@ int main(int argc, char* argv[]) {
   Pow pow;
   int base, exp;
   std::cout << Color::BOLD << Color::MAGENTA 
-            << "======= OPERACIÓN POTENCIA (FPR) =======" 
+            << "======= POWER OPERATION (RPF) =======" 
             << Color::RESET << std::endl;
 
   while (true) {
-    std::cout << Color::CYAN << "Ingrese la base " 
-              << Color::DIM << "(-1 para salir): " 
+    std::cout << Color::CYAN << "Enter the base " 
+              << Color::DIM << "(-1 to exit): " 
               << Color::RESET;
     std::cin >> base;
     if (base == -1) break;
     if (base < 0) {
       std::cout << Color::BOLD << Color::RED 
-                << "  Error: La base debe ser un número entero no negativo." 
+                << "  Error: The base must be a natural number." 
                 << Color::RESET << std::endl;
       continue;
     }
 
-    std::cout << Color::CYAN << "Ingrese el exponente: " << Color::RESET;
+    std::cout << Color::CYAN << "Enter the exponent: " << Color::RESET;
     std::cin >> exp;
     if (exp < 0) {
       std::cout << Color::BOLD << Color::RED 
-                << "  Error: El exponente debe ser un número entero no negativo." 
+                << "  Error: The exponent must be a natural number." 
                 << Color::RESET << std::endl;
       continue;
     }
@@ -54,14 +54,14 @@ int main(int argc, char* argv[]) {
     RPF::reset_counts();
 
     int result = pow.operate({base, exp});
-    std::cout << Color::GREEN << "Resultado: " 
+    std::cout << Color::GREEN << "Result: " 
               << Color::BOLD << result << Color::RESET << std::endl;
     
     RPF::display_counts();
   }
 
   std::cout << Color::BOLD << Color::MAGENTA 
-            << "\n======= 👋 Fin del Programa =======" 
+            << "\n======= End of program =======" 
             << Color::RESET << std::endl;
 
   return 0;
